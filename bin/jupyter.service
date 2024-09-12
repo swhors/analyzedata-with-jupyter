@@ -3,11 +3,11 @@ Description=Jupyter Notebook Server
 
 [Service]
 PIDFILE=/run/jupyter.pid
-User=swhors
-Environment="PYTHONPATH=/home/swhors/jupyter-workspace/venv/lib/python3.10/site-packages"
-Environmant="PATH=/home/swhors/jupyter-workspace/venv/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
-WorkingDirectory=/home/swhors/jupyter-workspace
-ExecStart=/home/swhors/jupyter-workspace/venv/bin/jupyter-lab
+User=aimmodev
+Environment="PYTHONPATH=/home/aimmodev/jupyter-workspace/venv/lib/python3.10/site-packages"
+Environmant="PATH=/home/aimmodev/jupyter-workspace/venv/bin:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin"
+WorkingDirectory=/home/aimmodev/jupyter-workspace
+ExecStart=/home/aimmodev/jupyter-workspace/venv/bin/jupyter-lab
 
 [Install]
 WantedBy=multi-user.target
