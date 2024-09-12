@@ -42,7 +42,7 @@ def insert_market_value(conn=None, cursor=None, value=None, auto_commit=True):
         db_fint(conn1)
 
 
-def inset_market_values(values):
+def insert_market_values(values):
     conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
     cursor = conn.cursor()
     for value in values:
