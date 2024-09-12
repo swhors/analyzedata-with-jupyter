@@ -23,8 +23,11 @@ args:
   query = input query
     ex ) query : "select * from finance.stock_list;"
 """
-def select_datas(conn, table: str, where: str) -> []:
-    cur = conn.cursor()
+def select_datas(conn, cursor=None, table: str="", where: str = None) -> []:
+    if cursor == None:
+        cur = conn.cursor()
+    else:
+        cur = cursor
     datas = []
     query = f'select * from {table}'
     if where is not None and len(where) > 6:
@@ -32,10 +35,8 @@ def select_datas(conn, table: str, where: str) -> []:
     #print(f'query={query}')
     cur.execute(query)
     rows = cur.fetchall()
-    #print(f'fetched data = {len(rows)}')
     for row in rows:
         datas.append(row)
-    cur.close()
     return datas
 
 
@@ -47,19 +48,29 @@ args:
   table = string, table name
   values = string, values
 """
-def insert_datas(conn, table, values):
-    cur = conn.cursor()
+def insert_datas(conn, cursor=None, table="", values=None, auto_commit=True):
+    if cursor == None:
+        cur = conn.cursor()
+    else:
+        cur = cursor
     for value in values:
-        query = f'insert into {table} values({str(value)})'
+        query = f'insert ignore into {table} values({str(value)})'
         #print(f'query={query}')
         cur.execute(query)
-    conn.commit()
-    cur.close()
+    if auto_commit:
+        conn.commit()
 
-def insert_data(conn, table, value):
-    cur = conn.cursor()
-    query = f'insert into {table} values({str(value)})'
-    #print(f'query={query}')
-    cur.execute(query)
-    conn.commit()
-    cur.close()
+
+def insert_data(conn, cursor=None, table="", value=None, auto_commit=True):
+    try:
+        if cursor == None:
+            cur = conn.cursor()
+        else:
+            cur = cursor
+        query = f'insert ignore into {table} values({str(value)})'
+        #print(f'query={query}')
+        cur.execute(query)
+        if auto_commit:
+            conn.commit()
+    except Exception as e:
+        print(e)

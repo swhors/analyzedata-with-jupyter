@@ -23,16 +23,19 @@ def get_wantedcoms_from_file():
 def get_wantedcoms_from_db():
     coms_list = []
     conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
-    datas = select_datas(conn, "wanted_com", None)
+    cursor = conn.cursor()
+    datas = select_datas(conn=conn, cursor=cursor, table="wanted_com", where=None)
     for data in datas:
         coms_list.append(WantedCom(*data))
+    cursor.close()
     db_fint(conn)
     return coms_list
 
 
 def put_wantedcom_to_db(wanted_com):
     conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
-    insert_data(conn, "wanted_com", wanted_com)
+    cur = conn.cursor()
+    insert_data(conn=conn, cursor=cur, table="wanted_com", values=wanted_com)
     db_fint(conn)
 
 
