@@ -7,16 +7,17 @@ class WantedCom:
     market: str
 
     def __init__(self,
-                 code: str,
-                 name: str,
-                 market: str):
-        self.id = 0
+                 id: int = 0,
+                 code: str = "",
+                 name: str = "",
+                 market: str = ""):
+        self.id = id
         self.code = code
         self.name = name
         self.market = market
 
     def __str__(self) -> str:
-        return f'\"{self.code}\", \"{self.name}\", \"{self.market}\"'
+        return f'\"{self.id}\", \"{self.code}\", \"{self.name}\", \"{self.market}\"'
 
     @classmethod
     def from_dict(cls, wanted):
@@ -24,3 +25,9 @@ class WantedCom:
             wanted["Market"],
             wanted["Code"],
             wanted["Name"])
+    
+    def __eq__(self, other):
+        if self.code == other.code:
+            return True
+        else:
+            False

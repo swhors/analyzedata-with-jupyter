@@ -29,6 +29,7 @@ class MarketValue:
                  close: int,
                  volume: int,
                  change: int):
+        self.id = 0
         self.code = code
         self.open_v = open_v
         self.high = high
@@ -38,7 +39,7 @@ class MarketValue:
         self.change = change
 
     def __str__(self) -> str:
-        return f'\"\"{self.code}\", \"{self.open_v}\", \"{self.high}\", \"{self.low}\", \"{self.close}\", \"{self.volume}\", \"{self.change}\"'
+        return f'\"{self.id}\", \"{self.code}\", \"{self.open_v}\", \"{self.high}\", \"{self.low}\", \"{self.close}\", \"{self.volume}\", \"{self.change}\"'
 
     @classmethod
     def from_dict(cls, value):
