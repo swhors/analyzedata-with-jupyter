@@ -54,7 +54,7 @@ class MarketValue:
         if self.code == other.code and self.updated.date() == other.updated.date():
             return True
         else:
-            False
+            return False
 
     @classmethod
     def from_dict(cls, value, code, updated):

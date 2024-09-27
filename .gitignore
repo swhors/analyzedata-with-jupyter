@@ -1,1 +1,13 @@
 venv/
+
+.ipynb_checkpoints/
+finance/.ipynb_checkpoints/
+finance/__pycache__/
+finance/coms_list.txt
+finance/model/.ipynb_checkpoints/
+finance/model/__pycache__/
+finance/service/.ipynb_checkpoints/
+finance/service/__pycache__/
+finance/util/.ipynb_checkpoints/
+finance/util/__pycache__/
+jobs/
