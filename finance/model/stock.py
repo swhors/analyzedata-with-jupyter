@@ -1,4 +1,8 @@
+"""
+Data Model Class for Company Information
+"""
 class_name="Stock"
+
 
 class Stock:
     stype: str

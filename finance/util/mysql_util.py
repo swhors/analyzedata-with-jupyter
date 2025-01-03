@@ -1,3 +1,6 @@
+"""
+MySQL Utility
+"""
 import pymysql
 
 CHARSET="utf8"
@@ -12,7 +15,6 @@ def db_init(db_host: str, db_user: str, db_passwd: str, db_db: str):
     return conn
 
 
-# close connection
 def db_fint(conn):
     """
     Finalize db connection

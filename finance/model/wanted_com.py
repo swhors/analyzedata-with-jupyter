@@ -1,4 +1,8 @@
+"""
+Data Model Class for WantedCom
+"""
 class_name="Stock"
+
 
 class WantedCom:
     id: int

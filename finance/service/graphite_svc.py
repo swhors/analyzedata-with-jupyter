@@ -11,21 +11,13 @@ import time
 
 DELAY = 1
 
+
 def date_2_datetime(_date):
     """date를 datetime 형태로 변경합니다."""
     args = _date.timetuple()[:6]
     return datetime(*args) + timedelta(hours=1)
 
 
-"""
-| code   | varchar(10) | YES  |     | NULL    |                |
-| open   | int(11)     | YES  |     | NULL    |                |
-| high   | int(11)     | YES  |     | NULL    |                |
-| low    | int(11)     | YES  |     | NULL    |                |
-| close  | int(11)     | YES  |     | NULL    |                |
-| volume | int(11)     | YES  |     | NULL    |                |
-| change 
-"""
 def send_metric(market_value: MarketValue, market="NASDAQ", debug=False):
     """
     매트릭을 전송합니다.
