@@ -10,12 +10,18 @@ def get_yesterday():
     return before_one_day
 
 
+def get_beforeoneyear():
+    now = datetime.now()
+    before_one_day = now - timedelta(days = 364)
+    return before_one_day
+
+
 def get_now():
     return datetime.now()
 
 
 def get_n_month_before(n: int) -> datetime:
-    return datetime.now() - timedelta(days=n*30)
+    return datetime.now() - timedelta(hours=n*30)
 
 
 def get_before_ndays(n: int) -> datetime:

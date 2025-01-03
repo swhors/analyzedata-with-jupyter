@@ -16,23 +16,23 @@ class_name="Stock"
 class MarketValue:
     id: int
     code: str
-    open_v: int
-    high: int
-    low: int
-    close: int
+    open_v: float
+    high: float
+    low: float
+    close: float
     volume: int
-    change: int
+    change: float
     updated: datetime
 
     def __init__(self,
                  id: int = 0,
                  code: str = "",
-                 open_v: int = 0,
-                 high: int = 0,
-                 low: int = 0,
-                 close: int = 0,
+                 open_v: float = 0,
+                 high: float = 0,
+                 low: float = 0,
+                 close: float = 0,
                  volume: int = 0,
-                 change: int = 0,
+                 change: float = 0,
                  updated: datetime = datetime.now()):
         self.id = 0
         self.code = code
@@ -58,6 +58,11 @@ class MarketValue:
 
     @classmethod
     def from_dict(cls, value, code, updated):
+        if "Change" in value: 
+            change = value["Change"]
+        else:
+            change = 0
+        
         return MarketValue(
             code = code,
             open_v = value["Open"],
@@ -65,6 +70,6 @@ class MarketValue:
             low = value["Low"],
             close = value["Close"],
             volume = value["Volume"],
-            change = value["Change"],
+            change = change,
             updated = updated
         )

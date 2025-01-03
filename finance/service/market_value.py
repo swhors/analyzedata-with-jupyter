@@ -2,44 +2,77 @@ from util import db_init, db_fint, select_datas, insert_datas, insert_data
 import os
 from config import db_host, db_port, db_user, db_passwd, db_db, charset
 from model.wanted_com import WantedCom
+from model.market_value import MarketValue
 from datetime import datetime, timedelta
+import logging
 
 
-def get_market_value_from_db(from_date: datetime, to_date: datetime):
-    value_list = []
+def get_last_market_value_in_db(code: str=None):
     conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
-    datas = select_datas(conn, "market_value", None)
-    for data in datas:
-        value_list.append(WantedCom(*data))
+    datas = select_datas(conn=conn, table="market_value", where=f'code=\"{code}\" order by id desc limit 1')
+    if len(datas) > 0:
+        code = datas[0][1]
+    else:
+        None
     db_fint(conn)
+    return code
+
+
+def get_code_by_name(name: str):
+    conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
+    datas = select_datas(conn=conn, table="stock_list", where=f'name=\"{name}\"')
+    if len(datas) > 0:
+        code = datas[0][1]
+    else:
+        None
+    db_fint(conn)
+    return code
+
+
+def get_market_value_from_db(from_date: datetime, to_date: datetime, code: str=None, name: str=None):
+    value_list = []
+    if code == None and name != None:
+        code = get_code_by_name(name)
+    else:
+        code = code
+    if code != None:
+        conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
+        where = f'code=\"{code}\" and updated>=\"{from_date}\" and updated<=\"{to_date}\" order by updated asc'
+        datas = select_datas(conn=conn, table="market_value", where=where)
+        for data in datas:
+            value_list.append(MarketValue(*data))
+        db_fint(conn)
     return value_list
 
 
 def select_market_value(conn, cursor=None, value=None):
     value_list = []
-    values = select_datas(conn, cursor=cursor, table="market_value", where=value.where_by_code_and_openv_and_updated())
+    values = select_datas(conn,
+                          cursor=cursor,
+                          table="market_value",
+                          where=value.where_by_code_and_openv_and_updated())
     for val in values:
         value_list.append(val)
     return value_list
 
 
-def insert_market_value(conn=None, cursor=None, value=None, auto_commit=True):
+def insert_market_value(conn=None, cursor=None, value=None, auto_commit=True) -> bool:
+    result = False
+    if value is None:
+        return result
     if conn == None:
         conn1 = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
     else:
         conn1 = conn
-
-    if cursor == None:
-        cur = conn1.cursor()
-    else:
-        cur = cursor
-
-    ret = select_market_value(conn=conn1, cursor=cur, value=value)
+    ret = select_market_value(conn=conn1, cursor=None, value=value)
     if len(ret) == 0:
-        insert_data(conn=conn1, cursor=cur, table="market_value", value=value, auto_commit=auto_commit)
-
+        insert_data(conn=conn1, cursor=None, table="market_value", value=value, auto_commit=auto_commit)
+        result = True
+    else:
+        logging.info(f"Data is existed. [{value}]")
     if conn == None:
         db_fint(conn1)
+    return result
 
 
 def insert_market_values(values):

@@ -35,7 +35,7 @@ def get_wantedcoms_from_db():
 def put_wantedcom_to_db(wanted_com):
     conn = db_init(db_host=db_host, db_passwd=db_passwd, db_user=db_user, db_db=db_db)
     cur = conn.cursor()
-    insert_data(conn=conn, cursor=cur, table="wanted_com", values=wanted_com)
+    insert_data(conn=conn, cursor=cur, table="wanted_com", value=wanted_com)
     db_fint(conn)
 
 
